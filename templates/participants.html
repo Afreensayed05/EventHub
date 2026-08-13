@@ -1,0 +1,197 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+
+    <div>
+        <h3 class="mb-0">
+            <i class="bi bi-people-fill"></i>
+            Participants
+        </h3>
+
+        <small>
+
+<i class="bi bi-calendar-event"></i>
+
+{{ event.title }}
+
+|
+
+{{ event.date }}
+
+|
+
+{{ event.venue }}
+
+</small>
+    </div>
+
+    <div>
+
+        <form method="GET" class="d-flex">
+
+            <input
+                type="text"
+                name="q"
+                class="form-control me-2"
+                placeholder="Search Participant..."
+                value="{{ query|default:'' }}">
+
+            <button class="btn btn-light">
+                <i class="bi bi-search"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+    <div class="card-body">
+        <div class="alert alert-primary mt-3">
+
+    <i class="bi bi-people-fill"></i>
+
+    Total Participants :
+
+    <strong>{{ total_participants }}</strong>
+
+</div>
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>College</th>
+                    <th>Attendance</th>
+                    <th>Action</th>
+                    <th>Registered On</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for registration in registrations %}
+
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>{{ registration.name }}</td>
+
+                    <td>{{ registration.email }}</td>
+
+                    <td>{{ registration.phone }}</td>
+
+                    <td>{{ registration.college }}</td>
+
+                    <td>
+
+                        {% if registration.attendance == "Present" %}
+
+                            <span class="badge bg-success">
+
+                                Present
+
+                            </span>
+
+                        {% elif registration.attendance == "Absent" %}
+
+                            <span class="badge bg-danger">
+
+                                Absent
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Pending
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+                    <td>
+
+{% if registration.attendance == "Pending" %}
+
+<a href="{% url 'mark_attendance' registration.id 'Present' %}"
+class="btn btn-success btn-sm">
+
+<i class="bi bi-check-lg"></i>
+
+</a>
+
+<a href="{% url 'mark_attendance' registration.id 'Absent' %}"
+class="btn btn-danger btn-sm">
+
+<i class="bi bi-x-lg"></i>
+
+</a>
+
+{% elif registration.attendance == "Present" %}
+
+<span class="badge bg-success">
+
+Marked Present
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Marked Absent
+
+</span>
+
+{% endif %}
+
+</td>
+<td>
+
+{{ registration.registered_on|date:"d M Y" }}
+
+</td>
+
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="7" class="text-center">
+
+                        No Participants Yet
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

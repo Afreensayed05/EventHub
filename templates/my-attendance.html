@@ -1,0 +1,90 @@
+{% extends "base-student.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-dark text-white">
+
+<h3>
+
+<i class="bi bi-check2-square"></i>
+
+My Attendance
+
+</h3>
+
+</div>
+
+<div class="card-body">
+
+{% if registrations %}
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Event</th>
+<th>Date</th>
+<th>Venue</th>
+<th>Attendance</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for reg in registrations %}
+
+<tr>
+
+<td>{{ reg.event.title }}</td>
+
+<td>{{ reg.event.date }}</td>
+
+<td>{{ reg.event.venue }}</td>
+
+<td>
+
+{% if reg.attendance == "Present" %}
+
+<span class="badge bg-success">
+
+Present
+
+</span>
+
+{% elif reg.attendance == "Absent" %}
+
+<span class="badge bg-danger">
+
+Absent
+
+</span>
+
+{% else %}
+<span class="badge bg-warning text-dark">
+Pending
+</span>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<div class="alert alert-info text-center">
+<h4>
+No Attendance Records Found
+</h4>
+</div>
+{% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

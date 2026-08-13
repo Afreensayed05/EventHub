@@ -1,0 +1,91 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+
+        <h3>
+            <i class="bi bi-person-plus-fill"></i>
+            Add Organizer
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label>Name</label>
+
+                    <input class="form-control"
+                           name="name"
+                           required>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label>Email</label>
+
+                    <input type="email"
+                           class="form-control"
+                           name="email"
+                           required>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label>Phone</label>
+
+                    <input class="form-control"
+                           name="phone"
+                           required>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label>Department</label>
+
+                    <input class="form-control"
+                           name="department"
+                           required>
+
+                </div>
+
+                <div class="col-md-6 mb-4">
+
+                    <label>Designation</label>
+
+                    <input class="form-control"
+                           name="designation"
+                           required>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-success">
+
+                <i class="bi bi-check-circle"></i>
+
+                Save Organizer
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

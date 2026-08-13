@@ -1,0 +1,128 @@
+{% extends "base-student.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+            <i class="bi bi-ticket-perforated-fill text-primary"></i>
+            My Tickets
+        </h2>
+
+    </div>
+
+    <div class="row">
+
+        {% for ticket in tickets %}
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow border-0">
+
+                {% if ticket.event.image %}
+
+                <img src="{{ ticket.event.image.url }}"
+                     class="card-img-top"
+                     style="height:220px;object-fit:cover;">
+
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold">
+
+                        {{ ticket.event.title }}
+
+                    </h4>
+
+                    <p>
+
+                        <i class="bi bi-ticket"></i>
+
+                        <strong>Ticket ID:</strong>
+
+                        {{ ticket.ticket_id }}
+
+                    </p>
+
+                    <p>
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        {{ ticket.event.date }}
+
+                    </p>
+
+                    <p>
+
+                        <i class="bi bi-geo-alt"></i>
+
+                        {{ ticket.event.venue }}
+
+                    </p>
+
+                    <div class="text-center my-3">
+
+                        {% if ticket.qr_code %}
+
+                        <img src="{{ ticket.qr_code.url }}"
+                             width="180"
+                             class="img-fluid border rounded">
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="d-grid gap-2">
+
+                        <a href="{% url 'ticket' ticket.id %}"
+                           class="btn btn-primary">
+
+                            <i class="bi bi-eye-fill"></i>
+
+                            View Ticket
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                <h4>No Tickets Available</h4>
+
+                <p>
+
+                    Register for an event to receive your ticket.
+
+                </p>
+
+                <a href="{% url 'event_list' %}"
+                   class="btn btn-primary">
+
+                    Browse Events
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

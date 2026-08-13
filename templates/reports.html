@@ -1,0 +1,117 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+
+<i class="bi bi-file-earmark-bar-graph"></i>
+
+Reports Dashboard
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Total Events</h6>
+<h2>{{ total_events }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Participants</h6>
+<h2>{{ participants }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Revenue</h6>
+<h2>₹ {{ revenue }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Feedback</h6>
+<h2>{{ feedback }}</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card bg-success text-white text-center">
+<div class="card-body">
+<h6>Active Events</h6>
+<h2>{{ active_events }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card bg-primary text-white text-center">
+<div class="card-body">
+<h6>Completed Events</h6>
+<h2>{{ completed_events }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card bg-warning text-center">
+<div class="card-body">
+<h6>Attendance %</h6>
+<h2>{{ attendance_percentage }}%</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card bg-danger text-white text-center">
+<div class="card-body">
+<h6>Pending</h6>
+<h2>{{ pending }}</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center">
+
+<button class="btn btn-danger">
+
+<i class="bi bi-file-earmark-pdf"></i>
+
+Download PDF
+
+</button>
+
+<button class="btn btn-success">
+
+<i class="bi bi-file-earmark-excel"></i>
+
+Export Excel
+
+</button>
+
+</div>
+
+{% endblock %}

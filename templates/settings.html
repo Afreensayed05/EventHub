@@ -1,0 +1,92 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2 class="mb-4">
+        <i class="bi bi-palette"></i>
+        Theme Settings
+    </h2>
+
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h5 class="mb-4">
+                Choose Your Theme
+            </h5>
+
+
+            <div class="row g-3">
+
+
+                <!-- Green -->
+
+                <div class="col-md-3">
+
+                    <button
+                        class="theme-btn theme-green"
+                        onclick="setTheme('green')">
+
+                        🌿 Green
+
+                    </button>
+
+                </div>
+
+
+                <!-- Blue -->
+
+                <div class="col-md-3">
+
+                    <button
+                        class="theme-btn theme-blue"
+                        onclick="setTheme('blue')">
+
+                        🔵 Blue
+
+                    </button>
+
+                </div>
+
+
+                <!-- Purple -->
+
+                <div class="col-md-3">
+
+                    <button
+                        class="theme-btn theme-purple"
+                        onclick="setTheme('purple')">
+
+                        🟣 Purple
+
+                    </button>
+
+                </div>
+
+
+                <!-- Orange -->
+
+                <div class="col-md-3">
+
+                    <button
+                        class="theme-btn theme-orange"
+                        onclick="setTheme('orange')">
+
+                        🟠 Orange
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    <i class="bi bi-check2-square"></i>
+    Attendance Dashboard
+</h2>
+
+<!-- Summary Cards -->
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card shadow border-0 text-center">
+            <div class="card-body">
+                <i class="bi bi-people-fill fs-1 text-primary"></i>
+                <h6 class="mt-2">Total Participants</h6>
+                <h2>{{ total }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0 text-center bg-success text-white">
+            <div class="card-body">
+                <i class="bi bi-check-circle-fill fs-1"></i>
+                <h6 class="mt-2">Present</h6>
+                <h2>{{ present }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0 text-center bg-danger text-white">
+            <div class="card-body">
+                <i class="bi bi-x-circle-fill fs-1"></i>
+                <h6 class="mt-2">Absent</h6>
+                <h2>{{ absent }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow border-0 text-center bg-warning">
+            <div class="card-body">
+                <i class="bi bi-hourglass-split fs-1"></i>
+                <h6 class="mt-2">Pending</h6>
+                <h2>{{ pending }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Attendance Table -->
+
+<div class="card shadow">
+
+    <div class="card-header bg-dark text-white">
+
+        <h4 class="mb-0">
+            <i class="bi bi-list-check"></i>
+            Attendance Records
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Student</th>
+                    <th>Event</th>
+                    <th>College</th>
+                    <th>Registered On</th>
+                    <th>Attendance</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for registration in registrations %}
+
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>{{ registration.name }}</td>
+
+                    <td>{{ registration.event.title }}</td>
+
+                    <td>{{ registration.college }}</td>
+
+                    <td>{{ registration.registered_on|date:"d M Y" }}</td>
+
+                    <td>
+
+                        {% if registration.attendance == "Present" %}
+
+                            <span class="badge bg-success">
+                                Present
+                            </span>
+
+                        {% elif registration.attendance == "Absent" %}
+
+                            <span class="badge bg-danger">
+                                Absent
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-warning text-dark">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="6" class="text-center">
+
+                        <h5 class="text-muted">
+
+                            No Attendance Records Found
+
+                        </h5>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

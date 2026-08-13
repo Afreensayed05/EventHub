@@ -1,0 +1,137 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+<h2 class="mb-4">
+    <i class="bi bi-graph-up-arrow"></i>
+    Analytics Dashboard
+</h2>
+
+<div class="row">
+    <!-- Events by Category -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="mb-3">Events by Category</h5>
+                <div style="height:350px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="mb-3">Attendance Distribution</h5>
+                <div style="height:350px;">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Registrations -->
+    <div class="col-lg-12 mb-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="mb-3">Monthly Registrations</h5>
+                <div style="height:400px;">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Safely embed Django context data into HTML JSON elements -->
+{{ category_labels|default:"[]"|json_script:"category-labels-data" }}
+{{ category_counts|default:"[]"|json_script:"category-counts-data" }}
+{{ attendance_labels|default:"[]"|json_script:"attendance-labels-data" }}
+{{ attendance_counts|default:"[]"|json_script:"attendance-counts-data" }}
+{{ month_labels|default:"[]"|json_script:"month-labels-data" }}
+{{ month_counts|default:"[]"|json_script:"month-counts-data" }}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Safely parse JSON values passed from Django template
+    const categoryLabels = JSON.parse(document.getElementById('category-labels-data').textContent);
+    const categoryCounts = JSON.parse(document.getElementById('category-counts-data').textContent);
+
+    const attendanceLabels = JSON.parse(document.getElementById('attendance-labels-data').textContent);
+    const attendanceCounts = JSON.parse(document.getElementById('attendance-counts-data').textContent);
+
+    const monthLabels = JSON.parse(document.getElementById('month-labels-data').textContent);
+    const monthCounts = JSON.parse(document.getElementById('month-counts-data').textContent);
+
+    /* Category Chart */
+    const categoryCtx = document.getElementById("categoryChart");
+    if (categoryCtx) {
+        new Chart(categoryCtx, {
+            type: "bar",
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    label: "Events",
+                    data: categoryCounts,
+                    backgroundColor: '#49664f'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { precision: 0 } }
+                }
+            }
+        });
+    }
+
+    /* Attendance Chart */
+    const attendanceCtx = document.getElementById("attendanceChart");
+    if (attendanceCtx) {
+        new Chart(attendanceCtx, {
+            type: "pie",
+            data: {
+                labels: attendanceLabels,
+                datasets: [{
+                    data: attendanceCounts,
+                    backgroundColor: ['#49664f', '#6d8770', '#829b84', '#a1bca3']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
+
+    /* Monthly Chart */
+    const monthlyCtx = document.getElementById("monthlyChart");
+    if (monthlyCtx) {
+        new Chart(monthlyCtx, {
+            type: "line",
+            data: {
+                labels: monthLabels,
+                datasets: [{
+                    label: "Registrations",
+                    data: monthCounts,
+                    fill: false,
+                    borderColor: '#07183d',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { precision: 0 } }
+                }
+            }
+        });
+    }
+
+});
+</script>
+{% endblock %}

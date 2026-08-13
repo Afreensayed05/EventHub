@@ -1,0 +1,73 @@
+{% extends 'admin-dashboard.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-warning">
+
+<h3>
+
+Edit Category
+
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+{% csrf_token %}
+
+<label>
+
+Category Name
+
+</label>
+
+<input
+
+type="text"
+
+name="name"
+
+value="{{ category.name }}"
+
+class="form-control mb-3"
+
+required>
+
+<label>
+
+Description
+
+</label>
+
+<textarea
+
+name="description"
+
+class="form-control mb-4"
+
+rows="4">{{ category.description }}</textarea>
+
+<button
+
+class="btn btn-success">
+
+Update Category
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

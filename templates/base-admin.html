@@ -1,0 +1,1092 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventHub Admin</title>
+
+    <!-- Bootstrap CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+   <style>
+
+    /* ================================
+       BASIC PAGE
+    ================================= */
+
+    :root {
+        --sidebar-color: #5d7c67;
+        --topbar-color: #071a49;
+        --page-background: #fff4e8;
+        --sidebar-hover: #6b866f;
+        --submenu-color: #6d8770;
+        --submenu-hover: #829b84;
+    }
+
+
+    body {
+        margin: 0;
+        background: var(--page-background);
+        transition: background-color 0.3s ease;
+    }
+
+
+    /* ================================
+       TOP NAVBAR
+    ================================= */
+
+    .top-navbar {
+        background-color: var(--topbar-color) !important;
+        transition: background-color 0.3s ease;
+    }
+
+
+    /* ================================
+       MAIN WRAPPER
+    ================================= */
+
+    .main-wrapper {
+        display: flex;
+        align-items: stretch;
+        min-height: calc(100vh - 60px);
+    }
+
+
+    /* ================================
+       SIDEBAR
+    ================================= */
+
+    .sidebar {
+        width: 250px;
+        background-color: var(--sidebar-color) !important;
+        flex-shrink: 0;
+        transition:
+            background-color 0.3s ease,
+            margin-left 0.3s ease;
+    }
+
+
+    .sidebar.hide {
+        margin-left: -250px;
+    }
+
+
+    /* ================================
+       SIDEBAR MENU
+    ================================= */
+
+    .menu-link {
+        display: block;
+        padding: 15px 25px;
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+
+    .menu-link:hover {
+        background-color: var(--sidebar-hover);
+        color: white;
+    }
+
+
+    /* ================================
+       SUBMENU
+    ================================= */
+
+    .submenu {
+        display: block;
+        padding: 12px 55px;
+        background-color: var(--submenu-color);
+        color: white;
+        text-decoration: none;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+
+    .submenu:hover {
+        background-color: var(--submenu-hover);
+        color: white;
+    }
+
+
+    /* ================================
+       CONTENT
+    ================================= */
+
+    .content {
+        flex: 1;
+        padding: 30px;
+        overflow-x: auto;
+    }
+
+
+    /* ================================
+       ACTIVE MENU
+    ================================= */
+
+    .sidebar .menu a:hover,
+    .sidebar .menu a.active {
+        background-color: var(--sidebar-hover) !important;
+        color: white !important;
+    }
+
+
+    /* ================================
+       THEME BUTTONS
+    ================================= */
+
+    .theme-btn {
+        width: 100%;
+        padding: 20px;
+        border: none;
+        border-radius: 15px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+
+    .theme-green {
+        background: #58745e;
+    }
+
+
+    .theme-blue {
+        background: #315a8c;
+    }
+
+
+    .theme-purple {
+        background: #6c4c93;
+    }
+
+
+    .theme-orange {
+        background: #c56b32;
+    }
+
+
+    /* ================================
+       THEME CUSTOMIZATION PANEL
+    ================================= */
+
+    .theme-panel {
+        position: fixed;
+        top: 0;
+        right: -420px;
+        width: 400px;
+        height: 100vh;
+        background: white;
+        z-index: 9999;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+        transition: right 0.3s ease;
+        overflow-y: auto;
+    }
+
+
+    /* OPEN PANEL */
+
+    .theme-panel.active {
+        right: 0;
+    }
+
+
+    /* ================================
+       PANEL HEADER
+    ================================= */
+
+    .theme-panel-header {
+        background: #0d6efd;
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .theme-panel-header small {
+        opacity: 0.8;
+    }
+
+
+    /* ================================
+       PANEL BODY
+    ================================= */
+
+    .theme-panel-body {
+        padding: 25px;
+    }
+
+
+    /* ================================
+       COLOR INPUT
+    ================================= */
+
+    .form-control-color {
+        width: 100%;
+        height: 45px;
+    }
+
+
+    /* ================================
+       DARK MODE
+    ================================= */
+
+    body.dark-mode {
+        background: #121212 !important;
+        color: #f5f5f5 !important;
+    }
+
+
+    body.dark-mode .card {
+        background: #1e1e1e;
+        color: white;
+    }
+
+
+    body.dark-mode .theme-panel {
+        background: #1e1e1e;
+        color: white;
+    }
+
+
+    body.dark-mode .form-control {
+        background: #2b2b2b;
+        color: white;
+        border-color: #555;
+    }
+
+
+    /* ================================
+       FONT SIZES
+    ================================= */
+
+    body.font-small {
+        font-size: 14px;
+    }
+
+
+    body.font-medium {
+        font-size: 16px;
+    }
+
+
+    body.font-large {
+        font-size: 18px;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- TOP NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark top-navbar">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light me-3" id="toggleBtn">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-calendar-event"></i> EventHub
+            </a>
+
+            <form class="d-flex ms-auto me-4">
+                <input class="form-control" type="search" placeholder="Search">
+            </form>
+ 
+            <!-- Notification -->
+            <div class="dropdown me-3">
+
+    <button
+        class="btn btn-light position-relative"
+        id="notificationButton"
+        data-bs-toggle="dropdown">
+
+        <i class="bi bi-bell-fill"></i>
+
+        <span
+            id="notificationBadge"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="display:none;">
+
+            0
+
+        </span>
+
+    </button>
+
+    <ul
+        class="dropdown-menu dropdown-menu-end"
+        id="notificationList"
+        style="width:350px;">
+
+        <li>
+            <span class="dropdown-item text-muted">
+                No notifications
+            </span>
+        </li>
+
+    </ul>
+
+</div>
+
+            <!-- Profile -->
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle"></i>
+                    {{ request.user.username }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'profile' %}">
+                            <i class="bi bi-person-circle"></i> My Profile
+                        </a>
+                    </li>
+
+                    {% if request.user.is_superuser %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'member_list' %}">
+                                <i class="bi bi-people"></i> Organizers
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'view_feedback' %}">
+                                <i class="bi bi-chat-left-text"></i> Feedback
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-pencil-square"></i> Edit Profile
+                            </a>
+                        </li>
+                        <li>
+                            
+                            <!-- Theme Settings Button -->
+
+<button
+    class="btn btn-light me-3"
+    id="themeSettingsBtn"
+    title="Customize Dashboard">
+
+    <i class="bi bi-palette-fill">Color Themes</i>
+
+</button>
+                        </li>
+                    {% endif %}
+
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <a href="{% url 'admin_dashboard' %}" class="menu-link">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+
+            <!-- Categories -->
+            <a class="menu-link" data-bs-toggle="collapse" href="#categoryMenu">
+                <i class="bi bi-tags me-2"></i> Categories
+                <i class="bi bi-chevron-down float-end"></i>
+            </a>
+            <div class="collapse show" id="categoryMenu">
+                <a href="{% url 'create_category' %}" class="submenu">Create Category</a>
+                <a href="{% url 'category_list' %}" class="submenu">Category List</a>
+            </div>
+
+            <!-- Events -->
+            <a class="menu-link" data-bs-toggle="collapse" href="#eventMenu">
+                <i class="bi bi-calendar-event me-2"></i> Events
+                <i class="bi bi-chevron-down float-end"></i>
+            </a>
+            <div class="collapse show" id="eventMenu">
+                <a href="{% url 'create_event' %}" class="submenu">Create Event</a>
+                <a href="{% url 'my_events' %}" class="submenu">My Events</a>
+                <a href="{% url 'complete_event_list' %}" class="submenu">Completed Events</a>
+            </div>
+
+            <a href="#" class="menu-link"><i class="bi bi-people-fill me-2"></i> Participants</a>
+            <a href="#" class="menu-link"><i class="bi bi-check2-square me-2"></i> Attendance</a>
+            <a href="{% url 'reports' %}" class="menu-link"><i class="bi bi-file-earmark-bar-graph me-2"></i> Reports</a>
+            <a href="{% url 'analytics' %}" class="menu-link"><i class="bi bi-graph-up-arrow me-2"></i> Analytics</a>
+            <a href="{% url 'calendar' %}" class="menu-link"><i class="bi bi-calendar3 me-2"></i> Calendar View</a>
+            <a href="{% url 'view_feedback' %}" class="menu-link"><i class="bi bi-chat-left-text me-2"></i> Feedback</a>
+            <a href="{% url 'logout' %}" class="menu-link text-danger"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
+        </div>
+
+        <!-- MAIN CONTENT CONTAINER -->
+        <div class="content">
+            <!-- THEME CUSTOMIZATION PANEL -->
+
+<div id="themePanel" class="theme-panel">
+
+    <div class="theme-panel-header">
+
+        <div>
+            <h5 class="mb-0">
+                <i class="bi bi-palette-fill"></i>
+                Dashboard Customization
+            </h5>
+
+            <small>
+                Personalize your dashboard
+            </small>
+        </div>
+
+        <button
+            type="button"
+            class="btn-close"
+            id="closeThemePanel">
+        </button>
+
+    </div>
+
+
+    <div class="theme-panel-body">
+
+        <!-- Dashboard Title -->
+
+        <label class="form-label">
+            Dashboard Title
+        </label>
+
+        <input
+            type="text"
+            id="dashboardTitle"
+            class="form-control mb-4"
+            value="Admin Panel">
+
+
+        <!-- Theme -->
+
+        <label class="form-label">
+            Theme
+        </label>
+
+        <div class="d-flex gap-2 mb-4">
+
+            <button
+                class="btn btn-outline-primary theme-mode"
+                data-theme="light">
+
+                ☀️ Light
+
+            </button>
+
+            <button
+                class="btn btn-dark theme-mode"
+                data-theme="dark">
+
+                🌙 Dark
+
+            </button>
+
+        </div>
+
+
+        <!-- Sidebar Color -->
+
+        <label class="form-label">
+            Sidebar Color
+        </label>
+
+        <input
+            type="color"
+            id="sidebarColor"
+            class="form-control form-control-color mb-4"
+            value="#5d7c67">
+
+
+        <!-- Topbar Color -->
+
+        <label class="form-label">
+            Topbar Color
+        </label>
+
+        <input
+            type="color"
+            id="topbarColor"
+            class="form-control form-control-color mb-4"
+            value="#071a49">
+
+
+        <!-- Font Size -->
+
+        <label class="form-label">
+            Font Size
+        </label>
+
+        <div class="d-flex gap-2 mb-4">
+
+            <button
+                class="btn btn-outline-secondary font-size-btn"
+                data-size="small">
+
+                Small
+
+            </button>
+
+            <button
+                class="btn btn-secondary font-size-btn"
+                data-size="medium">
+
+                Medium
+
+            </button>
+
+            <button
+                class="btn btn-outline-secondary font-size-btn"
+                data-size="large">
+
+                Large
+
+            </button>
+
+        </div>
+
+
+        <!-- Buttons -->
+
+        <div class="d-flex gap-2">
+
+            <button
+                class="btn btn-danger flex-fill"
+                id="resetTheme">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+                Reset to Default
+
+            </button>
+
+            <button
+                class="btn btn-primary flex-fill"
+                id="saveTheme">
+
+                <i class="bi bi-save"></i>
+
+                Save Customization
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.getElementById("toggleBtn").addEventListener("click", function() {
+        document.getElementById("sidebar").classList.toggle("hide");
+    });
+</script>
+<script>
+
+function loadNotifications() {
+
+    fetch("{% url 'notifications' %}")
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            const badge =
+                document.getElementById("notificationBadge");
+
+            const list =
+                document.getElementById("notificationList");
+
+
+            // Badge
+
+            if (data.unread_count > 0) {
+
+                badge.style.display = "block";
+
+                badge.innerText =
+                    data.unread_count;
+
+            } else {
+
+                badge.style.display = "none";
+
+            }
+
+
+            // Notification list
+
+            if (data.notifications.length === 0) {
+
+                list.innerHTML = `
+                    <li>
+                        <span class="dropdown-item text-muted">
+                            No notifications
+                        </span>
+                    </li>
+                `;
+
+                return;
+            }
+
+
+            list.innerHTML = "";
+
+            data.notifications.forEach(notification => {
+
+                list.innerHTML += `
+
+                    <li>
+
+                        <div class="dropdown-item">
+
+                            <strong>
+                                ${notification.message}
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+                                ${notification.created_at}
+                            </small>
+
+                        </div>
+
+                    </li>
+
+                `;
+
+            });
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Notification error:",
+                error
+            );
+
+        });
+
+}
+
+
+// Load immediately
+
+loadNotifications();
+
+
+// Check every 5 seconds
+
+setInterval(
+    loadNotifications,
+    5000
+);
+
+
+document
+    .getElementById("notificationButton")
+    .addEventListener("click", function() {
+
+        fetch("{% url 'mark_notifications_read' %}");
+
+    });
+
+</script>
+<script>
+
+function setTheme(theme) {
+
+    const themes = {
+
+        green: {
+            primary: "#58745e",
+            secondary: "#49664f",
+            background: "#fff4e8"
+        },
+
+        blue: {
+            primary: "#315a8c",
+            secondary: "#24466d",
+            background: "#eef5ff"
+        },
+
+        purple: {
+            primary: "#6c4c93",
+            secondary: "#51376f",
+            background: "#f7f0ff"
+        },
+
+        orange: {
+            primary: "#c56b32",
+            secondary: "#994d20",
+            background: "#fff4e8"
+        }
+
+    };
+
+
+    const selected =
+        themes[theme];
+
+
+    document.documentElement.style
+        .setProperty(
+            "--primary-color",
+            selected.primary
+        );
+
+
+    document.documentElement.style
+        .setProperty(
+            "--secondary-color",
+            selected.secondary
+        );
+
+
+    document.documentElement.style
+        .setProperty(
+            "--page-background",
+            selected.background
+        );
+
+
+    localStorage.setItem(
+        "eventhub-theme",
+        theme
+    );
+
+}
+
+
+function loadTheme() {
+
+    const savedTheme =
+        localStorage.getItem(
+            "eventhub-theme"
+        );
+
+
+    if (savedTheme) {
+
+        setTheme(savedTheme);
+
+    }
+
+}
+
+
+loadTheme();
+
+</script>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =========================
+       OPEN / CLOSE PANEL
+    ========================= */
+
+    const themePanel =
+        document.getElementById("themePanel");
+
+    const themeSettingsBtn =
+        document.getElementById("themeSettingsBtn");
+
+    const closeThemePanel =
+        document.getElementById("closeThemePanel");
+
+
+    themeSettingsBtn.addEventListener(
+        "click",
+        function () {
+
+            themePanel.classList.add("active");
+
+        }
+    );
+
+
+    closeThemePanel.addEventListener(
+        "click",
+        function () {
+
+            themePanel.classList.remove("active");
+
+        }
+    );
+
+
+    /* =========================
+       SIDEBAR COLOR
+    ========================= */
+
+    const sidebarColor =
+        document.getElementById("sidebarColor");
+        sidebarColor.addEventListener("input", function () {
+
+    document.documentElement.style.setProperty(
+        "--sidebar-color",
+        this.value
+    );
+
+});
+
+
+    /* =========================
+       TOPBAR COLOR
+    ========================= */
+
+    const topbarColor =
+        document.getElementById("topbarColor");
+        topbarColor.addEventListener("input", function () {
+
+    document.documentElement.style.setProperty(
+        "--topbar-color",
+        this.value
+    );
+
+});
+
+
+    /* =========================
+       LIGHT / DARK MODE
+    ========================= */
+
+    document.querySelectorAll(".theme-mode")
+        .forEach(function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    const theme =
+                        this.dataset.theme;
+
+
+                    if (theme === "dark") {
+
+                        document.body.classList
+                            .add("dark-mode");
+
+                    } else {
+
+                        document.body.classList
+                            .remove("dark-mode");
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    /* =========================
+       FONT SIZE
+    ========================= */
+
+    document.querySelectorAll(".font-size-btn")
+        .forEach(function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    const size =
+                        this.dataset.size;
+
+
+                    document.body.classList
+                        .remove(
+                            "font-small",
+                            "font-medium",
+                            "font-large"
+                        );
+
+
+                    document.body.classList
+                        .add(
+                            "font-" + size
+                        );
+
+                }
+            );
+
+        });
+
+
+    /* =========================
+       SAVE CUSTOMIZATION
+    ========================= */
+
+    document.getElementById("saveTheme")
+        .addEventListener(
+            "click",
+            function() {
+
+
+                const settings = {
+
+                    sidebar:
+                        sidebarColor.value,
+
+                    topbar:
+                        topbarColor.value,
+
+                    theme:
+                        document.body.classList
+                        .contains("dark-mode")
+                        ? "dark"
+                        : "light",
+
+                    fontSize:
+
+                        document.body.classList
+                        .contains("font-small")
+                        ? "small"
+
+                        :
+
+                        document.body.classList
+                        .contains("font-large")
+                        ? "large"
+
+                        : "medium"
+
+                };
+
+
+                localStorage.setItem(
+                    "eventhubTheme",
+                    JSON.stringify(settings)
+                );
+
+
+                alert(
+                    "Theme customization saved!"
+                );
+
+
+                themePanel.classList
+                    .remove("active");
+
+            }
+        );
+
+
+    /* =========================
+       RESET
+    ========================= */
+document.getElementById("resetTheme")
+.addEventListener("click", function () {
+
+    sidebarColor.value = "#5d7c67";
+
+    topbarColor.value = "#071a49";
+
+
+    document.documentElement.style.setProperty(
+        "--sidebar-color",
+        "#5d7c67"
+    );
+
+    document.documentElement.style.setProperty(
+        "--topbar-color",
+        "#071a49"
+    );
+
+
+    document.body.classList.remove(
+        "dark-mode",
+        "font-small",
+        "font-large"
+    );
+
+    document.body.classList.add("font-medium");
+
+
+    localStorage.removeItem("eventhubTheme");
+
+});
+    
+
+
+    /* =========================
+       LOAD SAVED THEME
+    ========================= */
+
+    const saved =
+        localStorage.getItem(
+            "eventhubTheme"
+        );
+
+
+    if (saved) {
+
+        const settings =
+            JSON.parse(saved);
+
+
+        sidebarColor.value =
+            settings.sidebar;
+
+        document.documentElement.style.setProperty(
+    "--sidebar-color",
+    settings.sidebar
+);
+
+document.documentElement.style.setProperty(
+    "--topbar-color",
+    settings.topbar
+);
+
+        
+
+
+        if (settings.theme === "dark") {
+
+            document.body.classList
+                .add("dark-mode");
+
+        }
+
+
+        document.body.classList
+            .add(
+                "font-" +
+                settings.fontSize
+            );
+
+    }
+
+});
+
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,78 @@
+{% extends "base-admin.html" %}
+{% block content %}
+<div class="card shadow">
+<div class="card-header bg-primary text-white">
+<h3>Create Event</h3>
+</div>
+<div class="card-body">
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="row">
+   
+<div class="col-md-6 mb-3">
+<label>Event Title</label>
+<input type="text" class="form-control" name="title" required>
+</div>
+<div class="col-md-6 mb-3">
+<label>Category</label>
+<select class="form-control" name="category">
+{% for category in categories %}
+<option value="{{ category.id }}">
+{{ category.name }}
+</option>
+{% endfor %}
+</select>
+</div>
+<div class="col-md-6 mb-3">
+<label>Organizer</label>
+<select class="form-control" name="organizer">
+{% for organizer in organizers %}
+<option value="{{ organizer.id }}">
+{{ organizer.name }}
+</option>
+{% endfor %}
+</select>
+</div>
+<div class="col-md-6 mb-3">
+<label>Venue</label>
+<input class="form-control" name="venue">
+</div>
+<div class="col-md-6 mb-3">
+<label>Date</label>
+<input type="date" class="form-control" name="date">
+</div>
+<div class="col-md-6 mb-3">
+<label>Time</label>
+<input type="time" class="form-control" name="time">
+</div>
+<div class="col-md-6 mb-3">
+<label>Price</label>
+<input class="form-control" name="price">
+</div>
+<div class="col-md-6 mb-3">
+<label>Status</label>
+<select class="form-control" name="status">
+<option>Active</option>
+<option>Completed</option>
+<option>Cancelled</option>
+</select>
+</div>
+<div class="col-12 mb-3">
+<label>Description</label>
+<textarea class="form-control" rows="5" name="description"></textarea>
+<div class="col-12 mb-3">
+    <label>Event Poster</label>
+    <input
+        type="file"
+        class="form-control"
+        name="image">
+</div>
+</div>
+</div>
+<button class="btn btn-success">
+Create Event
+</button>
+</form>
+</div>
+</div>
+{% endblock %}

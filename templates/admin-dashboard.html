@@ -1,0 +1,113 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<style>
+
+.cards{
+display:flex;
+justify-content:space-between;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:40px;
+}
+
+.box{
+flex:1;
+min-width:220px;
+text-align:center;
+color:white;
+padding:20px;
+border-radius:10px;
+}
+
+.c1{background:#0096c7;}
+.c2{background:#2ecc71;}
+.c3{background:#f39c12;}
+.c4{background:#e63946;}
+
+.box h1{
+font-size:40px;
+}
+
+table{
+width:100%;
+background:white;
+}
+th{
+background:#07183d;
+color:white;
+}
+</style>
+<h2 class="mb-4">
+<i class="bi bi-speedometer2"></i>
+Dashboard
+</h2>
+<div class="cards">
+<div class="box c1">
+<h3>Event Types</h3>
+<h1>{{ active_events }}</h1>
+</div>
+<div class="box c2">
+<h3>Total Events</h3>
+<h1>{{ total_events }}</h1>
+</div>
+<div class="box c3">
+<h3>Participants</h3>
+<h1>{{ total_registrations }}</h1>
+</div>
+<div class="box c4">
+<h3>Completed</h3>
+<h1>{{ completed_events }}</h1>
+</div>
+</div>
+<div class="card shadow">
+<div class="card-header bg-dark text-white">
+<h4>
+Recent Registrations
+</h4>
+</div>
+<div class="card-body">
+<table class="table table-bordered table-hover">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Event</th>
+<th>Status</th>
+<th>Ticket</th>
+</tr>
+</thead>
+<tbody>
+{% for registration in registrations %}
+<tr>
+<td>{{ registration.id }}</td>
+<td>{{ registration.name }}</td>
+<td>{{ registration.email }}</td>
+<td>{{ registration.phone }}</td>
+<td>{{ registration.event.title }}</td>
+<td>
+<span class="badge bg-success">
+Registered
+</span>
+</td>
+<td>
+<a href="{% url 'ticket' registration.id %}" class="btn btn-primary btn-sm">
+Ticket
+</a>
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="7" class="text-center">
+No registrations yet.
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+{% endblock %}

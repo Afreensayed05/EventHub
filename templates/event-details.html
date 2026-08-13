@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    rel="stylesheet">
+</head>
+<body>
+<!-- RIGHT SIDE -->
+<div class="col-md-9 p-4">
+<h1 class="fw-bold mb-4">
+    <i class="bi bi-calendar-event text-primary"></i>
+    Event Details
+</h1>
+<div class="card shadow p-4">
+<div class="row">
+
+    <div class="col-md-5">
+
+        {% if event.image %}
+
+        <img src="{{ event.image.url }}"
+             class="img-fluid rounded shadow"
+             style="height:200px;width:80%;object-fit:cover;">
+
+        {% endif %}
+
+    </div>
+
+   <div class="col-md-7">
+
+    <div class="d-flex justify-content-between">
+
+        <!-- Center Content -->
+        <div class="text-center flex-grow-1 mt-3">
+
+            <h1 class="fw-bold mb-4">
+                {{ event.title }}
+            </h1>
+
+            <span class="badge bg-primary px-3 py-2">
+                {{ event.category }}
+            </span>
+
+        </div>
+
+        <!-- Status -->
+        <div>
+
+            <span class="badge bg-success fs-6 px-3 py-2">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                {{ event.status }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+<hr>
+<!-- Description -->
+<h4 class="fw-bold">
+    <i class="bi bi-card-text text-primary"></i>
+    Event Description
+</h4>
+<p>
+{{ event.description }}
+</p>
+<hr>
+<!-- Event Information -->
+<div class="row g-3">
+
+    <div class="col-md-6">
+        <div class="border rounded p-3 shadow-sm">
+            <i class="bi bi-calendar-event text-primary"></i>
+            <strong>Date</strong><br>
+            {{ event.date }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="border rounded p-3 shadow-sm">
+            <i class="bi bi-clock text-primary"></i>
+            <strong>Time</strong><br>
+            {{ event.time }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="border rounded p-3 shadow-sm">
+            <i class="bi bi-geo-alt text-primary"></i>
+            <strong>Venue</strong><br>
+            {{ event.venue }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="border rounded p-3 shadow-sm">
+            <i class="bi bi-folder text-primary"></i>
+            <strong>Category</strong><br>
+            {{ event.category }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="border rounded p-3 shadow-sm">
+            <i class="bi bi-currency-rupee text-primary"></i>
+            <strong>Fee</strong><br>
+            ₹ {{ event.price }}
+        </div>
+    </div>
+
+</div>
+<!-- Registration Details -->
+<h4 class="fw-bold">
+    <i class="bi bi-person-check-fill text-primary"></i>
+    Registration Details
+</h4>
+<table class="table table-bordered text-center mt-3">
+<thead class="table-dark">
+<tr>
+<th>Total Registered</th>
+<th>Available Seats</th>
+<th>Attendance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+150
+</td>
+<td>
+50
+</td>
+
+</tr>
+</tbody>
+</table>
+<!-- Buttons -->
+<div class="mt-4">
+<a href="{% url 'register_event' event.id %}"
+   class="btn btn-primary px-4 py-2 fw-semibold shadow-sm">
+    <i class="bi bi-ticket-perforated-fill"></i>
+    Register Now
+</a>
+<a href="{% url 'event_list' %}" class="btn btn-secondary">
+    <i class="bi bi-arrow-left"></i>
+    Back
+</a>
+</div>
+</div>
+</div>
+</body>
+</html>

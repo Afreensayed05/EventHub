@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Event Registration Dashboard</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f5f5f5;
+    margin:0;
+}
+
+.heading{
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    padding:20px;
+    background:#07183d;
+    color:white;
+    margin:20px;
+    border-radius:10px;
+
+}
+
+
+.cards{
+    display:flex;
+    justify-content:space-around;
+    margin:25px;
+}
+
+
+.box{
+    width:220px;
+    text-align:center;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+
+.c1{
+background:#0096c7;
+}
+
+.c2{
+background:#2ecc71;
+}
+
+.c3{
+background:#f39c12;
+}
+
+.c4{
+background:#e63946;
+}
+
+
+.box h1{
+font-size:38px;
+}
+
+
+button{
+    padding:7px 15px;
+    border:none;
+    border-radius:5px;
+}
+
+
+table{
+    width:95%;
+    margin:auto;
+    background:white;
+    border-collapse:collapse;
+}
+
+
+th{
+    background:#07183d;
+    color:white;
+    padding:12px;
+}
+
+
+td{
+    text-align:center;
+    padding:12px;
+    border-bottom:1px solid lightgray;
+}
+
+
+.running{
+    background:#20c997;
+    color:white;
+    padding:5px 15px;
+    border-radius:20px;
+}
+
+
+.finished{
+    background:#0dcaf0;
+    color:white;
+    padding:5px 15px;
+    border-radius:20px;
+}
+
+
+.waiting{
+    background:#dc3545;
+    color:white;
+    padding:5px 15px;
+    border-radius:20px;
+}
+
+
+.edit{
+    background:#007bff;
+    color:white;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="heading">
+Event Registration Dashboard
+</div>
+
+
+
+<div class="cards">
+
+
+<div class="box c1">
+<h2>Event Types</h2>
+<h1>{{ active_events }}</h1>
+<button>More Info</button>
+</div>
+
+
+<div class="box c2">
+<h2>Total Events</h2>
+<h1>35</h1>
+<button>More Info</button>
+</div>
+
+
+<div class="box c3">
+<h2>Participants</h2>
+<h1>540</h1>
+<button>More Info</button>
+</div>
+
+
+<div class="box c4">
+<h2>Completed</h2>
+<h1>{{ completed_events }} </h1>
+<button>More Info</button>
+</div>
+
+
+</div>
+
+
+
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Event Name</th>
+<th>Category</th>
+<th>Start Date</th>
+<th>End Date</th>
+<th>Venue</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+
+<tr>
+<td>1</td>
+<td>Code Challenge</td>
+<td>Technical</td>
+<td>12-07-2026</td>
+<td>13-07-2026</td>
+<td>Lab Block</td>
+<td><span class="running">Active</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+
+<tr>
+<td>2</td>
+<td>Science Expo</td>
+<td>Education</td>
+<td>18-07-2026</td>
+<td>18-07-2026</td>
+<td>Auditorium</td>
+<td><span class="finished">Completed</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+
+<tr>
+<td>3</td>
+<td>Cultural Fest</td>
+<td>Cultural</td>
+<td>25-07-2026</td>
+<td>25-07-2026</td>
+<td>Main Hall</td>
+<td><span class="waiting">Pending</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>Robotics Workshop</td>
+<td>Technical</td>
+<td>28-07-2026</td>
+<td>29-07-2026</td>
+<td>Seminar Hall</td>
+<td><span class="running">Active</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+
+<tr>
+<td>5</td>
+<td>Sports Meet</td>
+<td>Sports</td>
+<td>02-08-2026</td>
+<td>04-08-2026</td>
+<td>College Ground</td>
+<td><span class="finished">Completed</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+
+<tr>
+<td>6</td>
+<td>Startup Ideas Expo</td>
+<td>Business</td>
+<td>10-08-2026</td>
+<td>11-08-2026</td>
+<td>Innovation Center</td>
+<td><span class="waiting">Pending</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+
+<tr>
+<td>7</td>
+<td>AI Bootcamp</td>
+<td>Technology</td>
+<td>15-08-2026</td>
+<td>17-08-2026</td>
+<td>Computer Lab</td>
+<td><span class="running">Active</span></td>
+<td><button class="edit">Edit</button></td>
+</tr>
+
+
+</table>
+
+
+</body>
+</html>

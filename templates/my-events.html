@@ -1,0 +1,139 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+
+        <h3 class="mb-0">
+            <i class="bi bi-calendar-event"></i>
+            My Events
+        </h3>
+
+        <form method="GET" class="d-flex">
+
+            <input
+                type="text"
+                name="q"
+                class="form-control me-2"
+                placeholder="Search Event..."
+                value="{{ query|default:'' }}">
+
+            <button class="btn btn-light">
+                <i class="bi bi-search"></i>
+            </button>
+
+            <a href="{% url 'create_event' %}"
+class="btn btn-success">
+
+<i class="bi bi-plus-circle"></i>
+
+Create Event
+
+</a>
+
+        </form>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-hover table-bordered align-middle">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Venue</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th width="420">Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for event in events %}
+
+                <tr>
+
+                    <td>{{ event.id }}</td>
+
+                    <td>{{ event.title }}</td>
+
+                    <td>{{ event.category.name }}</td>
+
+                    <td>{{ event.venue }}</td>
+
+                    <td>{{ event.date }}</td>
+
+                    <td>
+
+                        {% if event.status == "Active" %}
+
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+
+                        {% elif event.status == "Completed" %}
+
+                            <span class="badge bg-primary">
+                                Completed
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+                                Cancelled
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+                    <td>
+    <div class="action-buttons">
+
+        <a href="{% url 'event_details' event.id %}"
+           class="btn btn-info btn-sm">
+            <i class="bi bi-eye"></i> View
+        </a>
+
+        <a href="{% url 'edit_event' event.id %}"
+           class="btn btn-warning btn-sm">
+            <i class="bi bi-pencil-square"></i> Edit
+        </a>
+
+        <a href="{% url 'delete_event' event.id %}"
+           class="btn btn-danger btn-sm">
+            <i class="bi bi-trash"></i> Delete
+        </a>
+
+        <a href="{% url 'participants' event.id %}"
+           class="btn btn-primary btn-sm">
+            <i class="bi bi-people-fill"></i> Participants
+        </a>
+
+    </div>
+</td>
+      
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">
+                        <h5 class="text-muted">
+                            No Events Found
+                        </h5>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

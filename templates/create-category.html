@@ -1,0 +1,54 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>Create Category</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <label class="form-label">Category Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control mb-3"
+                    required
+                >
+
+                <label class="form-label">Description</label>
+
+                <textarea
+                    name="description"
+                    class="form-control mb-4"
+                    rows="4"
+                ></textarea>
+
+                <button class="btn btn-success">
+
+                    <i class="bi bi-check-circle"></i>
+
+                    Save Category
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
